@@ -1,0 +1,92 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.4.RELEASE'
+    }
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "http://mvnrepo.tae.taobao.com/content/groups/public/" }
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin")
+    }
+}
+
+plugins {
+    id "org.sonarqube" version "2.5"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://10.0.10.176:9000/"
+        property "sonar.projectKey", "task-management-server"
+        property "sonar.projectName", "task-management-server"
+        property "sonar.projectVersion", "0.0.1-SNAPSHOT"
+        property "sonar.sources", "src/main/java"
+        property "sonar.java.sources", "src/main/java"
+        property "sonar.binaries", "build/classes"
+        property "sonar.java.binaries", "build/classes"
+        property "sonar.lauguage", "java"
+        property "sonar.scm.disabled", "true"
+    }
+}
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "http://mvnrepo.tae.taobao.com/content/groups/public/" }
+    jcenter()
+    mavenCentral()
+}
+
+ext {
+    springCloudVersion = 'Dalston.SR1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-websocket')
+    compile('org.springframework.boot:spring-boot-starter-aop')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    compile('org.springframework.boot:spring-boot-starter-mail')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.cloud:spring-cloud-starter-feign')
+    compile('io.springfox:springfox-swagger2:2.7.0')
+    compile('io.springfox:springfox-swagger-ui:2.7.0')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    runtime('mysql:mysql-connector-java')
+
+    compile('com.alibaba:fastjson:1.2.35')
+    compile('org.apache.commons:commons-lang3:3.6')
+    compile('joda-time:joda-time:2.9.9')
+    compile('org.joda:joda-convert:1.8.2')
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
+
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

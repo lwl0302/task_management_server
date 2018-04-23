@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: task-management-server
+  datasource:
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://192.168.125.3:3306/tms?autoReconnect=true&useUnicode=true&createDatabaseIfNotExist=true&characterEncoding=utf8&useSSL=true&serverTimezone=CTT
+    username: root
+    password: root20180315
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL5Dialect
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    prefer-ip-address: true
+server:
+  port: 50001
+
+logging:
+  path: ./logs
+
+task:
+  limit: 20
+  rows: 10000
+  extractLength: 2
